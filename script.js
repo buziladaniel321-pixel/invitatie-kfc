@@ -66,7 +66,21 @@ noBtn.addEventListener("pointerenter", (event) => {
 noBtn.addEventListener("pointerdown", runAway);  // deget pe telefon
 noBtn.addEventListener("click", runAway);        // tastatură (Enter / Space)
 
-yesBtn.addEventListener("click", () => showStep("step-date"));
+// Trimite în tăcere răspunsul către pagina ta privată (answers.html).
+// Dacă nu merge (ex: pagina e deschisă de pe calculator, nu de pe internet), invitația continuă normal.
+function sendAnswer(data) {
+  fetch("/api/answer", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ...data, noAttempts: escapes }),
+    keepalive: true, // ajunge chiar dacă pagina se închide imediat după
+  }).catch(() => {});
+}
+
+yesBtn.addEventListener("click", () => {
+  sendAnswer({ step: "yes" });
+  showStep("step-date");
+});
 
 /* ---------- Pasul 2: data (doar azi) și ora ---------- */
 const today = new Date().toLocaleDateString("ro-RO", {
@@ -79,6 +93,7 @@ document.getElementById("date-choice").textContent = "Azi, " + today;
 document.getElementById("times").addEventListener("click", (event) => {
   const btn = event.target.closest("[data-time]");
   if (!btn) return;
+  sendAnswer({ step: "time", time: btn.dataset.time });
   document.getElementById("when").textContent =
     `Azi, ${today}, la ora ${btn.dataset.time} · KFC`;
   showStep("step-final");

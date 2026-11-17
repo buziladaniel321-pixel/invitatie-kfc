@@ -243,6 +243,35 @@ body.is-romantic {
 .when { font-size: 1.3rem; margin: 18px 0 0; opacity: 0.9; }
 .when::first-letter { text-transform: uppercase; }
 
+/* ---------- Pagina privată cu răspunsuri (answers.html) ---------- */
+.login { display: grid; gap: 12px; text-align: left; }
+.login .label { margin: 0; }
+.login input {
+  min-height: 48px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--paper-edge);
+  background: #fff;
+  color: var(--ink);
+  font: 500 1.2rem "Cormorant Garamond", Georgia, serif;
+}
+.login input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+
+.status {
+  margin: 24px 0 8px;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--wax);
+  text-wrap: balance;
+}
+.answer-list { list-style: none; padding: 0; margin: 0; text-align: left; }
+.answer-list li {
+  padding: 10px 0;
+  border-top: 1px solid var(--paper-edge);
+  font-size: 1.15rem;
+  font-variant-numeric: tabular-nums;
+}
+
 /* Telefon */
 @media (max-width: 600px) {
   .greeting { font-size: 1.3rem; }

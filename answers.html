@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Pagina privată: nu apare în Google -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Răspunsul lui Iaris</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <section class="step is-active" aria-label="Răspunsuri">
+      <article class="paper">
+        <h1 class="title">Răspunsul lui <span class="script name">Iaris</span></h1>
+        <form class="login" id="login-form">
+          <label class="label" for="key-input">Parola ta</label>
+          <input id="key-input" type="password" autocomplete="current-password" required>
+          <button class="btn btn-yes" type="submit">Vezi răspunsul</button>
+        </form>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+        <ul class="answer-list" id="answer-list"></ul>
+      </article>
+    </section>
+  </main>
+
+  <script src="answers.js"></script>
+</body>
+</html>
