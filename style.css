@@ -1,0 +1,258 @@
+/* Culorile scrisorii: hârtie crem, cerneală maro, ceară roșie */
+:root {
+  --bg: #3d1119;
+  --bg-glow: #6b1d2a;
+  --paper: #fbf3e4;
+  --paper-edge: #ead9bb;
+  --envelope: #e6cfa6;
+  --envelope-dark: #d4b783;
+  --ink: #3a2418;
+  --ink-soft: #7a5a44;
+  --wax: #a8201a;
+  --wax-dark: #7c1410;
+  --gold: #e2b75a;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at 50% 30%, var(--bg-glow), var(--bg) 70%);
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  overflow-x: hidden;
+}
+
+main {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+
+/* Doar pasul activ se vede */
+.step { display: none; width: 100%; max-width: 520px; }
+.step.is-active { display: block; animation: fade-in 500ms ease both; }
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.script { font-family: "Great Vibes", "Brush Script MT", cursive; font-weight: 400; }
+
+/* ---------- Plicul ---------- */
+.step-envelope { text-align: center; color: var(--paper); }
+
+.addressee { font-size: 1.4rem; margin: 0 0 20px; }
+.addressee .script { font-size: 2.4rem; color: var(--gold); margin-left: 6px; }
+
+.envelope {
+  position: relative;
+  width: min(340px, 86vw);
+  aspect-ratio: 3 / 2;
+  margin: 0 auto;
+  background: linear-gradient(160deg, var(--envelope), var(--envelope-dark));
+  border-radius: 8px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  perspective: 800px;
+}
+
+/* Clapa triunghiulară de sus */
+.envelope-flap {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 62%;
+  background: linear-gradient(180deg, #f0dcb6, var(--envelope));
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transition: transform 600ms ease;
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15));
+}
+.envelope.is-open .envelope-flap { transform: rotateX(180deg); }
+
+/* Sigiliul de ceară = butonul care deschide plicul */
+.seal {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 72px;
+  height: 72px;
+  translate: -50% -50%;
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #d0382f, var(--wax) 55%, var(--wax-dark));
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35), inset 0 -3px 6px rgba(0, 0, 0, 0.25);
+  color: #f5d0c4;
+  font: 700 1.5rem "Cormorant Garamond", Georgia, serif;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: transform 180ms ease, opacity 300ms ease;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+.seal:hover { transform: scale(1.06); }
+.seal:active { transform: scale(0.94); }
+.envelope.is-open .seal { opacity: 0; animation: none; }
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 4px 10px rgba(0,0,0,.35), 0 0 0 0 rgba(226,183,90,.55); }
+  50%      { box-shadow: 0 4px 10px rgba(0,0,0,.35), 0 0 0 12px rgba(226,183,90,0); }
+}
+
+.hint { margin: 18px 0 0; font-style: italic; opacity: 0.75; font-size: 1.1rem; }
+
+/* ---------- Foaia de hârtie ---------- */
+.paper {
+  background: var(--paper);
+  border: 1px solid var(--paper-edge);
+  border-radius: var(--radius);
+  padding: clamp(28px, 7vw, 48px);
+  box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4);
+  text-align: center;
+}
+
+.greeting { font-size: 1.5rem; margin: 0 0 8px; line-height: 1.3; text-wrap: balance; }
+.greeting .name { font-size: 3.2rem; color: var(--wax); line-height: 1.2; }
+.message { font-size: 1.6rem; margin: 0 0 32px; text-wrap: pretty; }
+.message strong { color: var(--wax); }
+
+/* ---------- Butoane ---------- */
+.answers { display: flex; justify-content: center; gap: 20px; min-height: 56px; }
+
+.btn {
+  min-width: 110px;
+  min-height: 52px;
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  font: 700 1.3rem "Cormorant Garamond", Georgia, serif;
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+.btn:active { transform: scale(0.96); }
+.btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+
+.btn-yes { background: var(--wax); border-color: var(--wax); color: #fff; }
+.btn-yes:hover { background: var(--wax-dark); }
+
+.btn-no { background: transparent; color: var(--ink); touch-action: none; }
+
+/* După prima „fugă”, butonul Nu se mișcă liber pe ecran */
+.btn-no.is-running {
+  position: fixed;
+  z-index: 10;
+  background: var(--paper);
+  transition: left 250ms ease, top 250ms ease;
+}
+
+/* ---------- Alegerea datei ---------- */
+.title { font-size: 2.2rem; margin: 0 0 20px; font-weight: 700; }
+.label {
+  margin: 18px 0 8px;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.choice {
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid var(--wax);
+  background: #fff6f2;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.choice::first-letter { text-transform: uppercase; }
+
+.times { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.btn-time {
+  background: transparent;
+  font-variant-numeric: tabular-nums;
+  min-width: 96px;
+}
+.btn-time:hover { background: var(--ink); color: var(--paper); }
+
+/* ---------- Finalul cu artificii ---------- */
+.step-final.is-active { display: grid; place-items: center; min-height: 80svh; }
+
+#fireworks { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+
+/* La final, fundalul se încălzește spre trandafiriu */
+body.is-romantic {
+  background: radial-gradient(ellipse at 50% 40%, #8e2340, #3d0f1e 70%);
+  transition: background-color 1s ease;
+}
+
+/* Trandafirii și petalele care cad */
+.petals { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; }
+.petal {
+  position: absolute;
+  top: -60px;
+  animation: fall linear forwards;
+}
+/* Petala desenată din CSS: o elipsă roz cu un colț ascuțit */
+.petal-shape {
+  width: 16px;
+  height: 20px;
+  border-radius: 80% 0 80% 0;
+  background: linear-gradient(135deg, #ffc2d1, #e0457b);
+  opacity: 0.9;
+}
+.petal-emoji { line-height: 1; }
+
+/* Cade și se leagănă ușor stânga-dreapta */
+@keyframes fall {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(var(--sway), 27vh) rotate(90deg); }
+  50%  { transform: translate(0, 55vh) rotate(180deg); }
+  75%  { transform: translate(calc(var(--sway) * -1), 82vh) rotate(270deg); }
+  100% { transform: translate(0, 110vh) rotate(360deg); }
+}
+
+.final-text { position: relative; z-index: 2; text-align: center; color: var(--paper); }
+
+/* Inima care bate deasupra textului */
+.heart {
+  margin: 0 0 8px;
+  font-size: 3.4rem;
+  line-height: 1;
+  color: #ff4d6d;
+  text-shadow: 0 0 24px rgba(255, 77, 109, 0.7);
+  animation: beat 1.2s ease-in-out infinite;
+}
+@keyframes beat {
+  0%, 100% { transform: scale(1); }
+  15%      { transform: scale(1.25); }
+  30%      { transform: scale(1); }
+  45%      { transform: scale(1.15); }
+}
+.thanks {
+  font-family: "Great Vibes", "Brush Script MT", cursive;
+  font-size: clamp(2.6rem, 11vw, 4.4rem);
+  line-height: 1.15;
+  margin: 0;
+  color: var(--gold);
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 120, 150, 0.45);
+  text-wrap: balance;
+}
+.when { font-size: 1.3rem; margin: 18px 0 0; opacity: 0.9; }
+.when::first-letter { text-transform: uppercase; }
+
+/* Telefon */
+@media (max-width: 600px) {
+  .greeting { font-size: 1.3rem; }
+  .greeting .name { font-size: 2.7rem; }
+  .message { font-size: 1.4rem; }
+}
+
+/* Cine are animațiile oprite din sistem nu vede mișcare */
+@media (prefers-reduced-motion: reduce) {
+  .step.is-active, .seal, .heart { animation: none; }
+  .petals { display: none; }
+  .envelope-flap { transition: none; }
+}

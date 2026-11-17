@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>O scrisoare pentru Iaris Gabor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,700;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <!-- Pasul 0: plicul închis, cu sigiliu -->
+    <section class="step step-envelope is-active" id="step-envelope" aria-label="Plic">
+      <p class="addressee">Către <span class="script">Iaris Gabor</span></p>
+      <div class="envelope" id="envelope">
+        <div class="envelope-flap"></div>
+        <button class="seal" id="open-btn" type="button" aria-label="Deschide scrisoarea">IG</button>
+      </div>
+      <p class="hint">Apasă pe sigiliu</p>
+    </section>
+
+    <!-- Pasul 1: scrisoarea cu Da / Nu -->
+    <section class="step" id="step-letter" aria-label="Scrisoarea">
+      <article class="paper">
+        <p class="greeting">Domnule Preamăritule<br><span class="script name">Iaris Gabor</span>,</p>
+        <p class="message">te invit să mergem la <strong>KFC</strong>.</p>
+        <div class="answers" id="answers">
+          <button class="btn btn-yes" id="yes-btn" type="button">Da</button>
+          <button class="btn btn-no" id="no-btn" type="button">Nu</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Pasul 2: alegerea datei și a orei -->
+    <section class="step" id="step-date" aria-label="Alege data">
+      <article class="paper">
+        <h1 class="title">Alege data</h1>
+        <p class="label">Ziua</p>
+        <div class="choice is-chosen" id="date-choice"></div>
+        <p class="label">Ora</p>
+        <div class="times" id="times">
+          <button class="btn btn-time" type="button" data-time="13:00">13:00</button>
+          <button class="btn btn-time" type="button" data-time="13:30">13:30</button>
+          <button class="btn btn-time" type="button" data-time="14:00">14:00</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- Pasul 3: artificii și mesajul final -->
+    <section class="step step-final" id="step-final" aria-label="Final">
+      <canvas id="fireworks" aria-hidden="true"></canvas>
+      <div class="petals" id="petals" aria-hidden="true"></div>
+      <div class="final-text" role="status">
+        <p class="heart" aria-hidden="true">❤</p>
+        <p class="thanks">Mulțumesc pentru date.</p>
+        <p class="when" id="when"></p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
